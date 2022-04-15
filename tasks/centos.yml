@@ -1,0 +1,10 @@
+---
+- name: install certbot centos
+  yum: pkg={{item}} state=latest
+  with_items:
+    - certbot
+  become: yes
+
+- name: change the path to letsencrypt
+  set_fact:
+    letsencrypt_path: "/usr/bin/letsencrypt"
