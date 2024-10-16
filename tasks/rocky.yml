@@ -1,0 +1,12 @@
+---
+- name: Install certbot on Rocky Linux 9
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - certbot
+  become: yes
+
+- name: Set the path to letsencrypt
+  set_fact:
+    letsencrypt_path: "/usr/bin/letsencrypt"
