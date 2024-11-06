@@ -29,17 +29,13 @@
     include_tasks: ubuntu-focal.yml
     when: ansible_distribution == "Ubuntu" and ansible_distribution_release == "focal"
 
-  - name: install certbot (CentOS)
-    include_tasks: centos.yml
-    when: ansible_distribution == "CentOS"
-
-  - name: install certbot (Rocky)
-    include_tasks: rocky.yml
-    when: ansible_distribution == "Rocky"
+  - name: install certbot (RedHat)
+    include_tasks: redhat.yml
+    when: ansible_os_family == 'RedHat'
 
   - name: install certbot (using pip)
     include_tasks: install-with-pip.yml
-    when: ansible_distribution != "CentOS" and ansible_distribution != "Debian" and (ansible_distribution != "Ubuntu" or ansible_distribution_release not in  ["xenial", "focal"])
+    when: ansible_os_family != 'RedHat' and ansible_distribution != "Debian" and (ansible_distribution != "Ubuntu" or ansible_distribution_release not in  ["xenial", "focal"])
 
   - name: Ensure webroot exists
     file:

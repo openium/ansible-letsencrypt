@@ -5,6 +5,7 @@
     state: latest
   loop:
     - certbot
+    - python3-certbot-dns-ovh
   become: yes
 
 - name: Set the path to letsencrypt
