@@ -37,6 +37,20 @@
     include_tasks: install-with-pip.yml
     when: ansible_os_family != 'RedHat' and ansible_distribution != "Debian" and (ansible_distribution != "Ubuntu" or ansible_distribution_release not in  ["xenial", "focal"])
 
+  # Debian 13 don't have python3-certbot-dns-ovh available with apt
+  # Need to install with python3 before
+  - name: Ensure correct letsencrypt symlink (Debian >= 13)
+    file:
+      src: "{{ certbot_replace_path }}"
+      dest: "{{ letsencrypt_path }}"
+      state: link
+      force: yes
+    when:
+      - ansible_os_family == 'Debian'
+      - ansible_distribution_major_version | int >= 13
+      - certbot_replace_path is defined
+      - letsencrypt_path is defined
+
   - name: Ensure webroot exists
     file:
       path: "{{ letsencrypt_webroot_path }}"
